@@ -1,0 +1,8 @@
+backend: mock
+moe:
+  num_experts: 64
+  top_k: 8
+  expert_hidden: 2048
+comm:
+  num_ranks: 128
+  topology: hierarchical

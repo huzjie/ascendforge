@@ -1,0 +1,6 @@
+{
+  "backend": "ascend",
+  "gemm": {"block_m": 256, "block_n": 256, "block_k": 64, "grouped": true},
+  "comm": {"num_ranks": 128, "topology": "hierarchical"},
+  "moe": {"num_experts": 64, "top_k": 8, "expert_hidden": 2048}
+}

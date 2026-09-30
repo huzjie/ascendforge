@@ -1,0 +1,59 @@
+backend: mock
+seed: 42
+output_dir: outputs
+
+tilelang:
+  tile_size: 128
+  dtype: fp16
+  unroll: 4
+  pipeline_stages: 2
+  target: ascend-c
+
+gemm:
+  block_m: 128
+  block_n: 128
+  block_k: 32
+  grouped: true
+  group_size: 8
+
+mla:
+  hidden_size: 512
+  num_heads: 8
+  kv_lora_rank: 64
+  qk_rope_dim: 32
+  sliding_window: 256
+  sparse: true
+
+moe:
+  num_experts: 8
+  top_k: 2
+  expert_hidden: 1024
+  aux_loss_coef: 0.01
+  capacity_factor: 1.25
+
+comm:
+  num_ranks: 8
+  topology: hierarchical
+  all_to_all: dispatch_combine
+  expert_parallel: true
+
+train:
+  lr: 3.0e-4
+  warmup_steps: 100
+  max_steps: 2000
+  batch_size: 8
+  grad_clip: 1.0
+  weight_decay: 0.01
+  scheduler: cosine
+
+data:
+  root: data/corpus
+  num_docs: 1000
+  dedup: true
+  quality_threshold: 0.5
+  curriculum: true
+  synth_seed: 42
+
+serving:
+  host: 127.0.0.1
+  port: 8000

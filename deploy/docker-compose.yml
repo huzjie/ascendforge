@@ -1,0 +1,9 @@
+services:
+  ascendforge:
+    build: ..
+    ports:
+      - "8000:8000"
+    environment:
+      ASCENDFORGE_BACKEND: mock
+    volumes:
+      - ../outputs:/app/outputs

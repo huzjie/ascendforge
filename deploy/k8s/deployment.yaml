@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ascendforge
+  labels:
+    app: ascendforge
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ascendforge
+  template:
+    metadata:
+      labels:
+        app: ascendforge
+    spec:
+      containers:
+        - name: ascendforge
+          image: ascendforge:1.0.0
+          ports:
+            - containerPort: 8000
+          env:
+            - name: ASCENDFORGE_BACKEND
+              value: "mock"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ascendforge
+spec:
+  selector:
+    app: ascendforge
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: ClusterIP
